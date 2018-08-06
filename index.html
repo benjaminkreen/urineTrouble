@@ -1,0 +1,102 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-4 col-md-2 input-group-sm">
+          <input type="number" class="form-control" placeholder="ex: 1987" name="year" id="year" oninput="yearInput()">
+        </div>
+        <div class="col-md-6 align-bottom">
+          <p class="align-bottom">Year of Birth</p>
+       </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 text-right">
+          So far you have produced ...
+        </div>
+        <div class="col-md-2 input-group-sm">
+          <input class="form-control" id="n-lbs" disabled>
+        </div>
+        <div class="col-md-4">
+          of Nitrogen through your lifetime!
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 text-right">
+          And you have produced ...
+        </div>
+        <div class="col-md-2 input-group-sm">
+          <input class="form-control" id="p-lbs" disabled>
+        </div>
+        <div class="col-md-4">
+          of Phosphate through your lifetime!
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 text-right">
+          That is enough to fertilize
+        </div>
+        <div class="col-md-2 input-group-sm">
+          <input class="form-control" id="crop-ft" disabled>
+        </div>
+        <div class="col-md-4">
+          of <span class="crop-name"></span>!
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 text-right">
+          Which is a total of
+        </div>
+        <div class="col-md-2 input-group-sm">
+          <input class="form-control" id="crop-lbs" disabled>
+        </div>
+        <div class="col-md-4">
+          of <span class="crop-name"></span>!
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  const crops = [
+    ['corn', 0.00275, 0.25],
+    ['wheat', 0.00206, 0.08],
+    ['rice', 0.00310, 0.16],
+    ['potatoes', 0.00505,  0.99],
+    ['yams', 0.00184, 0.47]
+  ]
+
+  function yearInput (e) {
+    var birthYear = document.getElementById('year').value;
+    var date = new Date();
+    var thisYear = date.getFullYear()
+    if(birthYear.length != 4) { return; }
+    if(!parseInt(birthYear)) { return; }
+    var age = thisYear - parseInt(birthYear)
+    if(age < 1) { return; }
+    var nitrogen = age * 8;
+    var crop = crops[~~(crops.length * Math.random())]
+    var sqft = parseInt(nitrogen / crop[1]);
+    var lbs = parseInt(sqft * crop[2]);
+    document.getElementById('n-lbs').value = nitrogen + ' lbs';
+    document.getElementById('p-lbs').value = age + ' lbs';
+    document.getElementById('crop-ft').value = sqft.toLocaleString() + ' sqft';
+    document.getElementById('crop-lbs').value = lbs.toLocaleString() +' lbs';
+    document.getElementsByClassName('crop-name')[0].textContent = crop[0]
+    document.getElementsByClassName('crop-name')[1].textContent = crop[0]
+  }
+</script>
+
+<style>
+  .container {
+    background-color: rgb(84, 77, 31);
+    color: white;
+  }
+
+  .row {
+    padding: 5px;
+  }
+</style>
